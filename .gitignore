@@ -1,0 +1,35 @@
+# .NET build output
+**/bin/
+**/obj/
+artifacts/
+TestResults/
+coverage/
+*.trx
+*.coverage
+*.coveragexml
+
+# IDE settings
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Local environment variables
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+logs/
+
+# Local Docker data
+docker-data/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini

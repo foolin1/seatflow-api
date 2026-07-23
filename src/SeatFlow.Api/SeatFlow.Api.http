@@ -1,0 +1,14 @@
+@SeatFlow.Api_HostAddress = http://localhost:5080
+
+GET {{SeatFlow.Api_HostAddress}}/
+Accept: application/json
+
+###
+
+GET {{SeatFlow.Api_HostAddress}}/api/version
+Accept: application/json
+
+###
+
+GET {{SeatFlow.Api_HostAddress}}/openapi/v1.json
+Accept: application/json
