@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using SeatFlow.Application.Authentication;
+using SeatFlow.Application.Common;
 using SeatFlow.Domain.Exceptions;
 
 namespace SeatFlow.Api.Errors;
@@ -76,6 +77,12 @@ public sealed class ApiExceptionHandler
                 new ApiError(
                     StatusCodes.Status400BadRequest,
                     "Validation error",
+                    exception.Message),
+
+            ResourceNotFoundException =>
+                new ApiError(
+                    StatusCodes.Status404NotFound,
+                    "Resource not found",
                     exception.Message),
 
             InvalidCredentialsException =>

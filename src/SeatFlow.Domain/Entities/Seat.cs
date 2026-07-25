@@ -17,10 +17,32 @@ public sealed class Seat : Entity
         SeatCategory category)
         : base(id)
     {
-        Guard.AgainstEmpty(hallId, nameof(hallId));
+        Guard.AgainstEmpty(
+            hallId,
+            nameof(hallId));
 
         HallId = hallId;
 
+        Update(
+            rowLabel,
+            number,
+            category);
+    }
+
+    public Guid HallId { get; private set; }
+
+    public string RowLabel { get; private set; } =
+        string.Empty;
+
+    public int Number { get; private set; }
+
+    public SeatCategory Category { get; private set; }
+
+    public void Update(
+        string rowLabel,
+        int number,
+        SeatCategory category)
+    {
         RowLabel = Guard.RequiredText(
             rowLabel,
             nameof(RowLabel),
@@ -35,15 +57,8 @@ public sealed class Seat : Entity
             nameof(Category));
     }
 
-    public Guid HallId { get; private set; }
-
-    public string RowLabel { get; private set; } = string.Empty;
-
-    public int Number { get; private set; }
-
-    public SeatCategory Category { get; private set; }
-
-    public void ChangeCategory(SeatCategory category)
+    public void ChangeCategory(
+        SeatCategory category)
     {
         Category = Guard.DefinedEnum(
             category,

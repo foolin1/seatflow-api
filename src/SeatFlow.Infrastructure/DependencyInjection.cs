@@ -2,8 +2,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SeatFlow.Application.Authentication;
+using SeatFlow.Application.Catalog;
 using SeatFlow.Domain.Entities;
 using SeatFlow.Infrastructure.Authentication;
+using SeatFlow.Infrastructure.Catalog;
 using SeatFlow.Infrastructure.Persistence;
 
 namespace SeatFlow.Infrastructure;
@@ -55,6 +57,10 @@ public static class DependencyInjection
         services.AddScoped<
             IAuthenticationService,
             AuthenticationService>();
+
+        services.AddScoped<
+            IEventManagementService,
+            EventManagementService>();
 
         return services;
     }

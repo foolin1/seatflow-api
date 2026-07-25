@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using SeatFlow.Api.Errors;
@@ -75,7 +76,17 @@ builder.Services.AddExceptionHandler<
 
 builder.Services.AddProblemDetails();
 
-builder.Services.AddControllers();
+builder.Services
+    .AddControllers()
+    .AddJsonOptions(
+        options =>
+        {
+            options.JsonSerializerOptions
+                .Converters
+                .Add(
+                    new JsonStringEnumConverter());
+        });
+
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
