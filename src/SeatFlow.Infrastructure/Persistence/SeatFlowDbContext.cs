@@ -14,6 +14,11 @@ public sealed class SeatFlowDbContext
     {
     }
 
+    public DbSet<User> Users => Set<User>();
+
+    public DbSet<RefreshToken> RefreshTokens =>
+        Set<RefreshToken>();
+
     public DbSet<Venue> Venues => Set<Venue>();
 
     public DbSet<Hall> Halls => Set<Hall>();

@@ -1,5 +1,9 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using SeatFlow.Application.Authentication;
+using SeatFlow.Domain.Entities;
+using SeatFlow.Infrastructure.Authentication;
 using SeatFlow.Infrastructure.Persistence;
 
 namespace SeatFlow.Infrastructure;
@@ -8,13 +12,18 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(
         this IServiceCollection services,
-        string connectionString)
+        string connectionString,
+        JwtOptions jwtOptions)
     {
         if (string.IsNullOrWhiteSpace(connectionString))
         {
             throw new InvalidOperationException(
                 "The PostgreSQL connection string is not configured.");
         }
+
+        ArgumentNullException.ThrowIfNull(jwtOptions);
+
+        jwtOptions.Validate();
 
         services.AddDbContext<SeatFlowDbContext>(
             options =>
@@ -31,6 +40,21 @@ public static class DependencyInjection
                                 TimeSpan.FromSeconds(5),
                             errorCodesToAdd: null);
                     }));
+
+        services.AddOptions();
+
+        services.AddSingleton(jwtOptions);
+
+        services.AddSingleton<TimeProvider>(
+            TimeProvider.System);
+
+        services.AddScoped<
+            IPasswordHasher<User>,
+            PasswordHasher<User>>();
+
+        services.AddScoped<
+            IAuthenticationService,
+            AuthenticationService>();
 
         return services;
     }
