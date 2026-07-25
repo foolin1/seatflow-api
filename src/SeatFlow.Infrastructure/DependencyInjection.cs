@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SeatFlow.Application.Authentication;
 using SeatFlow.Application.Catalog;
+using SeatFlow.Application.Reservations;
 using SeatFlow.Domain.Entities;
 using SeatFlow.Infrastructure.Authentication;
 using SeatFlow.Infrastructure.Catalog;
 using SeatFlow.Infrastructure.Persistence;
+using SeatFlow.Infrastructure.Reservations;
 
 namespace SeatFlow.Infrastructure;
 
@@ -17,13 +19,15 @@ public static class DependencyInjection
         string connectionString,
         JwtOptions jwtOptions)
     {
-        if (string.IsNullOrWhiteSpace(connectionString))
+        if (string.IsNullOrWhiteSpace(
+                connectionString))
         {
             throw new InvalidOperationException(
                 "The PostgreSQL connection string is not configured.");
         }
 
-        ArgumentNullException.ThrowIfNull(jwtOptions);
+        ArgumentNullException.ThrowIfNull(
+            jwtOptions);
 
         jwtOptions.Validate();
 
@@ -45,7 +49,8 @@ public static class DependencyInjection
 
         services.AddOptions();
 
-        services.AddSingleton(jwtOptions);
+        services.AddSingleton(
+            jwtOptions);
 
         services.AddSingleton<TimeProvider>(
             TimeProvider.System);
@@ -65,6 +70,10 @@ public static class DependencyInjection
         services.AddScoped<
             IEventCatalogService,
             EventCatalogService>();
+
+        services.AddScoped<
+            IReservationService,
+            ReservationService>();
 
         return services;
     }

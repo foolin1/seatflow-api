@@ -2,11 +2,14 @@ using System.Text;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using SeatFlow.Api.BackgroundServices;
 using SeatFlow.Api.Errors;
 using SeatFlow.Infrastructure;
 using SeatFlow.Infrastructure.Authentication;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder =
+    WebApplication.CreateBuilder(
+        args);
 
 var databaseConnectionString =
     builder.Configuration.GetConnectionString(
@@ -23,7 +26,8 @@ if (string.IsNullOrWhiteSpace(
 
 var jwtOptions =
     builder.Configuration
-        .GetSection(JwtOptions.SectionName)
+        .GetSection(
+            JwtOptions.SectionName)
         .Get<JwtOptions>()
     ?? throw new InvalidOperationException(
         "JWT settings are not configured.");
@@ -34,13 +38,17 @@ builder.Services.AddInfrastructure(
     databaseConnectionString,
     jwtOptions);
 
+builder.Services.AddHostedService<
+    ReservationExpirationWorker>();
+
 builder.Services
     .AddAuthentication(
         JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(
         options =>
         {
-            options.MapInboundClaims = false;
+            options.MapInboundClaims =
+                false;
 
             options.TokenValidationParameters =
                 new TokenValidationParameters
@@ -89,7 +97,8 @@ builder.Services
 
 builder.Services.AddOpenApi();
 
-var app = builder.Build();
+var app =
+    builder.Build();
 
 app.UseExceptionHandler();
 
@@ -105,13 +114,17 @@ app.MapControllers();
 
 app.MapGet(
         "/",
-        () => Results.Ok(
-            new
-            {
-                application = "SeatFlow.Api",
-                status = "Running"
-            }))
-    .WithName("GetApiStatus");
+        () =>
+            Results.Ok(
+                new
+                {
+                    application =
+                        "SeatFlow.Api",
+                    status =
+                        "Running"
+                }))
+    .WithName(
+        "GetApiStatus");
 
 app.Run();
 
