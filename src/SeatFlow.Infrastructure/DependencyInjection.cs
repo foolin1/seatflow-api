@@ -62,6 +62,10 @@ public static class DependencyInjection
             IEventManagementService,
             EventManagementService>();
 
+        services.AddScoped<
+            IEventCatalogService,
+            EventCatalogService>();
+
         return services;
     }
 }
