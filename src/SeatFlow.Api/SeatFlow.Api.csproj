@@ -2,16 +2,42 @@
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
+
+    <UserSecretsId>
+      seatflow-api-4c43d1d0-bbb1-4f82-9d46-5b6e4d62f51d
+    </UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.9" />
-    <PackageReference Include="Microsoft.OpenApi" Version="2.11.0" />
+    <PackageReference
+      Include="Microsoft.AspNetCore.OpenApi"
+      Version="10.0.9" />
+
+    <PackageReference
+      Include="Microsoft.EntityFrameworkCore.Design"
+      Version="10.0.9">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>
+        runtime;
+        build;
+        native;
+        contentfiles;
+        analyzers;
+        buildtransitive
+      </IncludeAssets>
+    </PackageReference>
+
+    <PackageReference
+      Include="Microsoft.OpenApi"
+      Version="2.11.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SeatFlow.Application\SeatFlow.Application.csproj" />
-    <ProjectReference Include="..\SeatFlow.Infrastructure\SeatFlow.Infrastructure.csproj" />
+    <ProjectReference
+      Include="..\SeatFlow.Application\SeatFlow.Application.csproj" />
+
+    <ProjectReference
+      Include="..\SeatFlow.Infrastructure\SeatFlow.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

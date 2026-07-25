@@ -1,4 +1,20 @@
+using SeatFlow.Infrastructure;
+
 var builder = WebApplication.CreateBuilder(args);
+
+var databaseConnectionString =
+    builder.Configuration.GetConnectionString("Database");
+
+if (string.IsNullOrWhiteSpace(databaseConnectionString))
+{
+    throw new InvalidOperationException(
+        "Connection string 'Database' is not configured. " +
+        "Configure it through .NET User Secrets or " +
+        "the ConnectionStrings__Database environment variable.");
+}
+
+builder.Services.AddInfrastructure(
+    databaseConnectionString);
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
